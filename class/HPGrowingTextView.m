@@ -36,6 +36,9 @@
 @end
 
 @implementation HPGrowingTextView
+{
+    CALayer *_maskLayer;
+}
 @synthesize internalTextView;
 @synthesize delegate;
 
@@ -112,6 +115,11 @@
     r.size.width -= contentInset.left + contentInset.right;
     
     internalTextView.frame = r;
+    
+    _maskLayer.frame = CGRectMake(0,
+                                  self.topHideHeight,
+                                  self.frame.size.width,
+                                  self.frame.size.height - self.topHideHeight - self.bottomHideHeight);
 }
 
 -(void)setContentInset:(UIEdgeInsets)inset
@@ -127,6 +135,38 @@
     
     [self setMaxNumberOfLines:maxNumberOfLines];
     [self setMinNumberOfLines:minNumberOfLines];
+}
+
+- (void)setTopHideHeight:(CGFloat)topHideHeight
+{
+    _topHideHeight = topHideHeight;
+    if (!_maskLayer)
+    {
+        _maskLayer = [[CALayer alloc] init];
+        _maskLayer.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+        _maskLayer.backgroundColor = [UIColor whiteColor].CGColor;
+        self.layer.mask = _maskLayer;
+    }
+    _maskLayer.frame = CGRectMake(0,
+                                  topHideHeight,
+                                  self.frame.size.width,
+                                  self.frame.size.height - topHideHeight - self.bottomHideHeight);
+}
+
+- (void)setBottomHideHeight:(CGFloat)bottomHideHeight
+{
+    _bottomHideHeight = bottomHideHeight;
+    if (!_maskLayer)
+    {
+        _maskLayer = [[CALayer alloc] init];
+        _maskLayer.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+        _maskLayer.backgroundColor = [UIColor whiteColor].CGColor;
+        self.layer.mask = _maskLayer;
+    }
+    _maskLayer.frame = CGRectMake(0,
+                                  self.topHideHeight,
+                                  self.frame.size.width,
+                                  self.frame.size.height - self.topHideHeight - bottomHideHeight);
 }
 
 -(UIEdgeInsets)contentInset

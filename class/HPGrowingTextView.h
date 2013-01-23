@@ -95,6 +95,9 @@
 @property(nonatomic) BOOL enablesReturnKeyAutomatically;
 
 
+@property (nonatomic,assign) CGFloat topHideHeight;
+@property (nonatomic,assign) CGFloat bottomHideHeight;
+
 //shadow properties
 @property (nonatomic, assign) CGSize shadowOffset;
 @property (nonatomic, retain) UIColor *shadowColor;

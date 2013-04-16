@@ -112,5 +112,6 @@
 
 - (BOOL)hasText;
 - (void)scrollRangeToVisible:(NSRange)range;
+- (void)deleteBackward;
 
 @end
